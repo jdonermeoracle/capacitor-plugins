@@ -43,7 +43,6 @@ public class PushNotificationsPlugin extends Plugin {
     public void load() {
         notificationManager = (NotificationManager) getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
         firebaseMessagingService = new MessagingService();
-
         staticBridge = this.bridge;
         if (lastMessage != null) {
             fireNotification(lastMessage);
@@ -251,5 +250,9 @@ public class PushNotificationsPlugin extends Plugin {
             return (PushNotificationsPlugin) handle.getInstance();
         }
         return null;
+    }
+
+    public static boolean isActive() {
+        return staticBridge.getWebView() != null;
     }
 }

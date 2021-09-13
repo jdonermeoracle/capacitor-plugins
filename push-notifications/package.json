@@ -1,7 +1,7 @@
 {
-  "name": "@capacitor/push-notifications",
-  "version": "1.0.4",
-  "description": "The Push Notifications API provides access to native push notifications.",
+  "name": "capacitor-push-notifications-cxm",
+  "version": "1.0.0",
+  "description": "The Push Notifications API provides access to native push notifications. Forked to include code from phonegap-plugin-push so that background notifications can automatically be shown if they contain a message.",
   "main": "dist/plugin.cjs.js",
   "module": "dist/esm/index.js",
   "types": "dist/esm/index.d.ts",
@@ -17,10 +17,10 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ionic-team/capacitor-plugins.git"
+    "url": "git+https://github.com/jdonermeoracle/capacitor-plugins.git"
   },
   "bugs": {
-    "url": "https://github.com/ionic-team/capacitor-plugins/issues"
+    "url": "https://github.com/jdonermeoracle/capacitor-plugins/issues"
   },
   "keywords": [
     "capacitor",
@@ -41,7 +41,7 @@
     "build": "npm run clean && npm run docgen && tsc && rollup -c rollup.config.js",
     "clean": "rimraf ./dist",
     "watch": "tsc --watch",
-    "prepublishOnly": "npm run build",
+    "prepublishOnly": "exit 0 || npm run build",
     "postpublish": "npm run publish:cocoapod",
     "publish:cocoapod": "pod trunk push ./CapacitorPushNotifications.podspec --allow-warnings"
   },
@@ -80,5 +80,6 @@
   },
   "publishConfig": {
     "access": "public"
-  }
+  },
+  "homepage": "https://github.com/jdonermeoracle/capacitor-plugins#readme"
 }
