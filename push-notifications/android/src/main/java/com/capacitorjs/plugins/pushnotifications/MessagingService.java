@@ -89,7 +89,7 @@ public class MessagingService extends FirebaseMessagingService implements PushCo
             extras.putString(entry.getKey(), entry.getValue());
         }
 
-        if (extras != null) {
+        if (extras != null && !PushNotificationsPlugin.isInForeground()) {
             Context applicationContext = getApplicationContext();
 
             extras = normalizeExtras(applicationContext, extras, null, null);

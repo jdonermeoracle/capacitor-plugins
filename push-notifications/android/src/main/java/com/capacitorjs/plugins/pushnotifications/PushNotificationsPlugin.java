@@ -40,7 +40,10 @@ public class PushNotificationsPlugin extends Plugin {
     private static final String EVENT_TOKEN_CHANGE = "registration";
     private static final String EVENT_TOKEN_ERROR = "registrationError";
 
+    private static boolean gForeground = false;
+
     public void load() {
+        gForeground = true;
         notificationManager = (NotificationManager) getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
         firebaseMessagingService = new MessagingService();
         staticBridge = this.bridge;
@@ -254,5 +257,28 @@ public class PushNotificationsPlugin extends Plugin {
 
     public static boolean isActive() {
         return staticBridge.getWebView() != null;
+    }
+
+    public static boolean isInForeground() {
+        return gForeground;
+    }
+
+    @Override
+    public void handleOnResume() {
+        super.handleOnResume();
+        gForeground = true;
+    }
+
+    @Override
+    public void handleOnPause() {
+        super.handleOnPause();
+        gForeground = false;
+    }
+
+
+    @Override
+    public void handleOnDestroy() {
+        super.handleOnDestroy();
+        gForeground = false;
     }
 }
