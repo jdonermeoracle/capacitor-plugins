@@ -1,6 +1,6 @@
 {
   "name": "capacitor-push-notifications-cxm",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "The Push Notifications API provides access to native push notifications. Forked to include code from phonegap-plugin-push so that background notifications can automatically be shown if they contain a message.",
   "main": "dist/plugin.cjs.js",
   "module": "dist/esm/index.js",
@@ -43,7 +43,7 @@
     "watch": "tsc --watch",
     "prepublishOnly": "exit 0 || npm run build",
     "postpublish": "npm run publish:cocoapod",
-    "publish:cocoapod": "pod trunk push ./CapacitorPushNotificationsCXM.podspec --allow-warnings"
+    "publish:cocoapod": "pod trunk push ./CapacitorPushNotificationsCxm.podspec --allow-warnings"
   },
   "devDependencies": {
     "@capacitor/android": "^3.0.0",
