@@ -59,7 +59,7 @@ public class PushNotificationsPlugin extends Plugin {
     protected void handleOnNewIntent(Intent data) {
         super.handleOnNewIntent(data);
         Bundle bundle = data.getExtras();
-        if (bundle != null && bundle.containsKey("google.message_id")) {
+        if (bundle != null) {
             JSObject notificationJson = new JSObject();
             JSObject dataObject = new JSObject();
             for (String key : bundle.keySet()) {

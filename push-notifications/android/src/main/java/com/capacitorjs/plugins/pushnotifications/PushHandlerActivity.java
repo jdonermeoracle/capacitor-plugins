@@ -5,6 +5,8 @@ import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import androidx.core.app.RemoteInput;
@@ -24,7 +26,6 @@ public class PushHandlerActivity extends Activity implements PushConstants {
         MessagingService gcm = new MessagingService();
 
         Intent intent = getIntent();
-
         int notId = intent.getExtras().getInt(NOT_ID, 0);
         Log.d(LOG_TAG, "not id = " + notId);
         gcm.setNotification(notId, "");
@@ -45,11 +46,21 @@ public class PushHandlerActivity extends Activity implements PushConstants {
         boolean isPushPluginActive = PushNotificationsPlugin.isActive();
         boolean inline = processPushBundle(isPushPluginActive, intent);
 
-        if(inline && android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.N && !startOnBackground){
+        if(inline && Build.VERSION.SDK_INT < Build.VERSION_CODES.N && !startOnBackground){
             foreground = true;
         }
 
         Log.d(LOG_TAG, "bringToForeground = " + foreground);
+
+        Bundle notificationObj = intent.getExtras();
+        notificationObj = (Bundle) notificationObj.get(PUSH_BUNDLE);
+        notificationObj.putInt("id", notId);
+
+        PushNotificationsPlugin pushPlugin = PushNotificationsPlugin.getPushNotificationsInstance();
+        Intent capacIntent = new Intent();
+        capacIntent.putExtras((notificationObj));
+        pushPlugin.handleOnNewIntent(capacIntent);
+
 
         finish();
 
