@@ -412,6 +412,10 @@ public class MessagingService extends FirebaseMessagingService implements PushCo
          */
         createActions(extras, mBuilder, resources, packageName, notId);
 
+        setNotificationSound(context, extras, mBuilder);
+
+        setNotificationVibration(extras, true, mBuilder);
+
         mNotificationManager.notify(appName, notId, mBuilder.build());
     }
 
