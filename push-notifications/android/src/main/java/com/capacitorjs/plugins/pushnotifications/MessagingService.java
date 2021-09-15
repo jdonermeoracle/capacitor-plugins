@@ -26,6 +26,8 @@ import android.os.Bundle;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationCompat.WearableExtender;
 import androidx.core.app.RemoteInput;
+
+import android.service.notification.StatusBarNotification;
 import android.text.Html;
 import android.text.Spanned;
 import android.util.Log;
@@ -313,6 +315,13 @@ public class MessagingService extends FirebaseMessagingService implements PushCo
         Resources resources = context.getResources();
 
         int notId = parseInt(NOT_ID, extras);
+        if (notId == 0) {
+            StatusBarNotification[] activeNotifications = mNotificationManager.getActiveNotifications();
+            for (StatusBarNotification notification : activeNotifications) {
+                notId = Math.max(notId, notification.getId() + 1);
+            }
+        }
+        extras.putInt(NOT_ID, notId);
         Intent notificationIntent = new Intent(this, PushHandlerActivity.class);
         notificationIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
         notificationIntent.putExtra(PUSH_BUNDLE, extras);
