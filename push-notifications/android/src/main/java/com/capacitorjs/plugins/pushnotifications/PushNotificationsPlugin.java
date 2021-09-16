@@ -42,6 +42,8 @@ public class PushNotificationsPlugin extends Plugin {
 
     private static boolean gForeground = false;
 
+    private static Intent pendingNotification;
+
     public void load() {
         gForeground = true;
         notificationManager = (NotificationManager) getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
@@ -53,6 +55,11 @@ public class PushNotificationsPlugin extends Plugin {
         }
 
         notificationChannelManager = new NotificationChannelManager(getActivity(), notificationManager);
+
+        if (pendingNotification != null) {
+            this.handleOnNewIntent(pendingNotification);
+            pendingNotification = null;
+        }
     }
 
     @Override
@@ -256,7 +263,7 @@ public class PushNotificationsPlugin extends Plugin {
     }
 
     public static boolean isActive() {
-        return staticBridge.getWebView() != null;
+        return (staticBridge != null && staticBridge.getWebView() != null);
     }
 
     public static boolean isInForeground() {
@@ -280,5 +287,9 @@ public class PushNotificationsPlugin extends Plugin {
     public void handleOnDestroy() {
         super.handleOnDestroy();
         gForeground = false;
+    }
+
+    public static void storePendingNotification(Intent notification) {
+        pendingNotification = notification;
     }
 }

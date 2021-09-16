@@ -55,12 +55,15 @@ public class PushHandlerActivity extends Activity implements PushConstants {
         Bundle notificationObj = intent.getExtras();
         notificationObj = (Bundle) notificationObj.get(PUSH_BUNDLE);
         notificationObj.putInt("id", notId);
-
-        PushNotificationsPlugin pushPlugin = PushNotificationsPlugin.getPushNotificationsInstance();
         Intent capacIntent = new Intent();
         capacIntent.putExtras((notificationObj));
-        pushPlugin.handleOnNewIntent(capacIntent);
 
+        if (isPushPluginActive) {
+            PushNotificationsPlugin pushPlugin = PushNotificationsPlugin.getPushNotificationsInstance();
+            pushPlugin.handleOnNewIntent(capacIntent);
+        } else {
+            PushNotificationsPlugin.storePendingNotification(capacIntent);
+        }
 
         finish();
 
